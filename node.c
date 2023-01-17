@@ -2,95 +2,97 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <math.h>
-#include <graph.h>
+#include "algo.h"
+#include "edge.h"
+#include "node.h"
 
-node *newgrap(int p, int index) {
-    if (p == 0)
-        return NULL;
-    node *node1 = (node *) calloc(1, sizeof(node));
-    node1->node_num = index;
-    node->edges = null;
-    node1->next = newgrap(p - 1, index + 1)
-    return node1;
+
+node *newGraph(int p) {
+    node * node1 = NULL;
+    if (p > 1) {
+        node1 = (node *) calloc(1, sizeof(node));
+        if (node1 == NULL) {
+            printf("problem with memory");
+            exit(1);
+        }
+        node1->node_num = 1;
+        node1->edges = NULL;
+        node1 = node1->next;
+    }
+    node *node2 = node1;
+    for (int i = 1; i < p; ++i) {
+        node1 = (node *) calloc(1, sizeof(node));
+        if (node1 == NULL) {
+            printf("problem with memory");
+            exit(1);
+        }
+        node1->node_num = i;
+        node1->edges = NULL;
+        node1 = node1->next;
+    }
+    return node2;
 }
 
-node *newnode(int num) {
-    node *node1 = (node *) calloc(1, sizeof(node));
+node *newNode(int num) {
+    node *node1 = NULL;
+    node1 = (node *) calloc(1, sizeof(node));
+    if (node1 == NULL) {
+        printf("problem with memory");
+        exit(1);
+    }
     node1->node_num = num;
-    node->edges = null;
+    node1->edges = NULL;
     node1->next = NULL;
     return node1;
 }
 
-edge *newedge(node *node1, int num) {
-    edge *edge1 = (edge *) calloc(1, sizeof(edge));
-    edge1->weight = num;
-    edge1->endpoint = node1;
-    edge1->*next = null;
-    return edge1;
-}
-
-void addnode(node **node1, int num) {
-    node *node2 = newnode(num);
-    if (*node1 == null) {
-        node1 = &node2;
+void addNode(node **node1, int num) {
+    node *node2 = newNode(num);
+    if (*node1 == NULL) {
+        *node1 = node2;
         return;
     }
     node2->next = (*node1);
-    node1 = &node2;
+    *node1 = node2;
 }
 
-void addedge(node *nodestart, node *nodeend, int num) {
-    edge *edge1 = newedge(nodeend, num);
-    if (nodestart->edges == null) {
-        nodestart->edges = *edge1
-        break;
+
+
+void deleteGraph(node **head) {
+    while (*head != NULL) {
+        deleteEdges(&(*head)->edges);
+        node* temp=*head;
+        (*head)=(*head)->next;
+        (temp)->next = NULL;
+        free(temp);
+        (temp) = NULL;
     }
-    edge1->next = nodestart->edges;
-    nodestart->edges = edge1;
-}
-
-void deletegraphead(node **node1) {
-    deletegrap(*node1);
-    free(*node1);
-    node1 = NULL;
-}
-
-void deletegrap(node *node1) {
-    if (node1->next != null)
-        deletegrap(node1->next);
-    deletedges(&(node1->edges));
-    free(node1->edges);
-    free(node1->next);////can free if have about him pointer?
-
-}
-
-void deletedges(edge **edge1) {
-    if ((*edge1)->next != null)
-        deletedge(&((*edge1)->next));
-    (*edge1)->endpoint = NULL;
-    free((*edge1));//can free emty ?and what hapend in father
 }
 
 void deleteOneNode(node *node1, node *head) {
-    deletedge(&(node1->edges));
-    while (head != NULL)
-        deletSpecificEdge(&(head->edges), node1)
-        head=head->next;
-}
-
-void deletSpecificEdge(edge **edge1, node *node1) {
-    if (*edge1 == NULL)
-        return;
-    if ((*edge1)->endpoint == node1)
-        edge1 == &((*edge1)->next);
-    while ((*edge1)->next != NULL) {
-        if ((*edge1)->next->endpoint == node1) {
-            edge *edge2 = (*edge1)->next;
-            (*edge1)->next == (*edge1)->next->next;
-            edge2->endpoint=NULL;
-            free(edge2);
-            return;
-        }
+    deleteEdges(&(node1->edges));
+    while (head != NULL) {
+        deleteSpecificEdge(&(head->edges), node1);
+        head = head->next;
     }
 }
+
+void printGraph_cmd(pnode head) //for self debug
+{
+    while (head != NULL) {
+        printf("Node:node_num-%d", head->node_num);
+        printEdges(head->edges, 0);
+        printf("\n----------------------------------\n");
+        head = head->next;
+    }
+}
+node *ReturnNode(int t, node *head){
+    node *node1 = head;
+    while ((node1)->node_num != t && (node1)->next != NULL) {
+        node1 = node1->next;
+    }
+    if ((node1)->node_num == t)
+        return node1;
+    return NULL;
+}
+
