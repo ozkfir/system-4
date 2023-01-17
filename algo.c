@@ -3,9 +3,10 @@
 #include <limits.h>
 #include <math.h>
 #include "algo.h"
+#include "graph.h"
 #include "edge.h"
 #include "node.h"
-#include <stdbool.h>
+#include <string.h>
 
 void relax(edge *e, node *head, int du) {
     while (head->node_num != e->endpoint->node_num)
@@ -19,10 +20,12 @@ void relax(edge *e, node *head, int du) {
     }
 }
 
-int shortsPath_cmd(pnode head, int numstart, int numend) {
+int shortsPath_cmd(pnode head, int num_start, int num_end) {
+    if (num_start == num_end)
+        return 0;
     int min;
     resetQueue(head);
-    node *s = ReturnNode(numstart, head);
+    node *s = ReturnNode(num_start, head);
     s->distance = 0;
     while (emptyQueue(head)) {
         node *u = ExtractMin(head);
@@ -33,7 +36,7 @@ int shortsPath_cmd(pnode head, int numstart, int numend) {
         }
     }
     node *temp = head;
-    while (temp->node_num != numend) { temp = temp->next; }
+    while (temp->node_num != num_end) { temp = temp->next; }
     min = temp->distance;
     temp = NULL;
     return min;
@@ -80,92 +83,86 @@ void deleteMini(node *head, node *min) {
 }
 
 
-int n;  // number of nodes
-int m;  // number of edges
-int *dist;  // distances from the source node
-bool *visited;  // keeps track of visited nodes
-int **graph;  // adjacency matrix representing the graph
-int *k_vertices; // vertices that the user has chosen
-int k; // number of vertices that the user has chosen
-
-int inputEdges(node *start, node *end) {
-    edge *temp = start->edges;
-    while (temp != NULL) {
-        if (temp->endpoint->node_num == end->node_num)
-            return temp->weight;
-        temp = temp->next;
-    }
-    return INT_MAX;
-}
-
-int dijkstr2( int len, int start, int end, int *boo, int sum) {
+int dijkstra(node *head, int *nodes, int len, int start, int end, int *boo, int sum) {
     int min = INT_MAX;
     boo[end] = 1;
-    int finish=0;
+    int finish = 0;
 
-    for (int i = 0; i <len ; ++i) {
-        finish+=boo[i];
+//chek if finish
+    for (int i = 0; i < len; ++i) {
+        finish += boo[i];
     }
-    if(finish=len)
+    if (finish == len)
         return sum;
 
     for (int i = 0; i < len; i++) {
-        if (graph[start][end] < INT_MAX && boo[i] != 1) {
-            sum += graph[start][end];
-            min = fmin(dijkstr2(len, end, i, boo, sum), min);
-            sum -= graph[start][end];
+        int d = shortsPath_cmd(head, nodes[start], nodes[end]);
+        if (boo[i] != 1 && d != INT_MAX) {
+            int *boo1 = (int *) malloc(len * sizeof(int));
+            memcpy(boo1, boo, len);
+            sum += d;
+            int tempMin=dijkstra(head, nodes, len, end, i, boo1, sum);
+            if (tempMin < min)
+                min = tempMin;
+            sum -= d;
+            free(boo1);
         }
     }
     return min;
 }
 
-void TSP_cmd2(pnode head, int *nodes, int len) {
-    n = len;
+void TSP_cmd(pnode head, int *nodes, int len) {
     int min;
-
-    graph = (int **) malloc(n * sizeof(int *));
-    for (int i = 0; i < n; i++) {
-        graph[i] = (int *) malloc(n * sizeof(int));
-    }
-
-
-    for (int j = 0; j < n; ++j) {
-        for (int i = 0; i < n; i++) {
-            if (i == j) { graph[j][i] = 0; }
-            else {
-                node *start = ReturnNode(nodes[j], head);
-                node *end = ReturnNode(nodes[i], head);
-                graph[j][i] = inputEdges(start, end);
-            }
-        }
-    }
-
-
 
     for (int j = 0; j < len; j++) {
         int *boo = (int *) calloc(len, sizeof(int));
-
-        int temp = dijkstr2(len, j, j, boo, 0);
+        int temp = dijkstra(head, nodes, len, j, j, boo, 0);
         free(boo);
-        min = fmin(min, temp);
+        if (temp < min)
+            min = temp;
     }
-
 
     if (min == INT_MAX) {
         printf("-1\n");
     } else {
         printf("%d\n", min);
     }
-
-    for (int i = 0;i < n;i++) {
-        free(graph[i]);
-    }
-    free(graph);
 }
 
 
 
+
+
+
+
+//int **graph;  // adjacency matrix representing the graph
 //
+//int inputEdges(node *start, node *end) {
+//    edge *temp = start->edges;
+//    while (temp != NULL) {
+//        if (temp->endpoint->node_num == end->node_num)
+//            return temp->weight;
+//        temp = temp->next;
+//    }
+//    return INT_MAX;
+//}
+
+//for (int j = 0; j < n; ++j) {
+//        for (int i = 0; i < n; i++) {
+//            if (i == j) { graph[j][i] = 0; }
+//            else {
+//                node *start = ReturnNode(nodes[j], head);
+//                node *end = ReturnNode(nodes[i], head);
+//                graph[j][i] = inputEdges(start, end);
+//            }
+//        }
+//    }
+
+//int *dist;  // distances from the source node
+//bool *visited;  // keeps track of visited nodes
+//int *k_vertices; // vertices that the user has chosen
+//int k; // number of vertices that the user has chosen
+//int m;  // number of edges
 //
 //
 //int min_distance() {
@@ -196,7 +193,7 @@ void TSP_cmd2(pnode head, int *nodes, int len) {
 //    }
 //}
 //
-//void TSP_cmd(pnode head, int *nodes, int len) {
+//void TSP_cmd(node * head, int *nodes, int len) {
 //
 //    // input the number of nodes and edges
 //    n = len;
@@ -229,7 +226,7 @@ void TSP_cmd2(pnode head, int *nodes, int len) {
 //        for (int j = 0; j < k; j++) {
 //            if (i != j) {
 //                if (dist[k_vertices[j]] != INT_MAX) {
-//                    min_dist = fmin(min_dist, dist[k_vertices[j]]);
+//                    min_dist = f_min(min_dist, dist[k_vertices[j]]);
 //                }
 //            }
 //        }

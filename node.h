@@ -3,19 +3,10 @@
 //
 
 
-#ifndef GRAPH_H_GCH_NODE_H
-#define GRAPH_H_GCH_NODE_H
+#ifndef NODE_H
+#define NODE_H
 #include "edge.h"
-#include "algo.h"
-
-
-typedef struct GRAPH_NODE_ {
-    int inqueue;
-    int distance;
-    int node_num;
-    struct edge_ *edges;
-    struct GRAPH_NODE_ *next;
-}node,*pnode;
+#include "graph.h"
 
 void printGraph_cmd(pnode head);
 void deleteOneNode(node *node1, node *head);

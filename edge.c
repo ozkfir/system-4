@@ -3,8 +3,8 @@
 #include "node.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
-#include <math.h>
+#include "graph.h"
+
 
 
 
@@ -33,14 +33,13 @@ void addEdge(node *nodeStart, node *nodeEnd, int num) {
 
 
 void deleteSpecificEdge(edge **edge1, node *node1) {
-    if ((*edge1)->endpoint->node_num != node1->node_num){
+    if ((*edge1)->endpoint->node_num == node1->node_num){
         edge *temp = *edge1;
         *edge1 = (*edge1)->next;
         temp->endpoint = NULL;
         free(temp);
         return;
     }
-
     edge *edge2=*edge1;
     while (edge2->next != NULL) {
         if ((edge2)->next->endpoint->node_num != node1->node_num)
@@ -62,15 +61,15 @@ void deleteEdges(edge **head) {
         edge * temp=*head;
         (temp)->next = NULL;
         (temp)->endpoint = NULL;
+        *head=(*head)->next;
         free(temp);
-        (temp) = NULL;
     }
 }
 
 
 void printEdges(edge *edge1, int index) {
     while (edge1 != NULL) {
-        printf("edge %d:weight-%d endpointvalue-%d\n\n", index, edge1->weight, edge1->endpoint->node_num);
+        printf("edge %d:weight-%d end_point_value-%d\n\n", index, edge1->weight, edge1->endpoint->node_num);
         edge1 = edge1->next;
         index++;
     }

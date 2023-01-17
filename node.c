@@ -1,11 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <limits.h>
-#include <math.h>
 #include "algo.h"
 #include "edge.h"
 #include "node.h"
-
+#include "graph.h"
 
 node *newGraph(int p) {
     node * node1 = NULL;
@@ -15,19 +13,18 @@ node *newGraph(int p) {
             printf("problem with memory");
             exit(1);
         }
-        node1->node_num = 1;
+        node1->node_num = 0;
         node1->edges = NULL;
-        node1 = node1->next;
     }
     node *node2 = node1;
     for (int i = 1; i < p; ++i) {
-        node1 = (node *) calloc(1, sizeof(node));
+        node1->next = (node *) calloc(1, sizeof(node));
         if (node1 == NULL) {
             printf("problem with memory");
             exit(1);
         }
-        node1->node_num = i;
-        node1->edges = NULL;
+        node1->next->node_num = i;
+        node1->next->edges = NULL;
         node1 = node1->next;
     }
     return node2;
@@ -65,7 +62,6 @@ void deleteGraph(node **head) {
         (*head)=(*head)->next;
         (temp)->next = NULL;
         free(temp);
-        (temp) = NULL;
     }
 }
 

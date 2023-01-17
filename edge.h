@@ -1,16 +1,10 @@
 
-
-#ifndef GRAPH_H_GCH_EDGE_H
-#define GRAPH_H_GCH_EDGE_H
+#ifndef EDGE_H
+#define EDGE_H
 
 #include "node.h"
-#include "algo.h"
+#include "graph.h"
 
-typedef struct edge_ {
-    int weight;
-    struct GRAPH_NODE_ * endpoint;
-    struct edge_ *next;
-}edge, *pedge;
 
 
 void deleteSpecificEdge(edge **edge1,node *node1);
@@ -22,4 +16,4 @@ void printEdges(edge *edge1,int index);
 
 
 
-#endif //GRAPH_H_GCH_EDGE_H
+#endif
