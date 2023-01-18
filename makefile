@@ -1,8 +1,8 @@
 CC=gcc
-AR=ar
+
 FLAGS= -Wall -g
 
-all: graph
+all: graph edge.o node.o algo.o main.o
 
 graph: main.o edge.o node.o algo.o
 	$(CC) $(FLAGS) -o graph main.o edge.o node.o algo.o
@@ -17,6 +17,7 @@ algo.o: algo.c algo.h node.h edge.h graph.h
 main.o: main.c algo.h node.h edge.h graph.h
 	$(CC) $(FLAGS) -c main.c
 .PHONY: clean all
+
 
 clean:
 	rm -f *.o *.a *.so graph

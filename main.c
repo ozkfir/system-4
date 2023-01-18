@@ -9,14 +9,14 @@
 
 int main() {
     char c;
-    int size;
+    int size,flag=1;
     node *head = NULL;
     node *start = NULL;
     node *end = NULL;
     int weight, numStart, numEnd;
     printf("a");
     scanf("%c", &c);
-    while (1) {
+    while (flag) {
         switch (c) {
             case 'A': {
                 printf("a");
@@ -30,11 +30,13 @@ int main() {
                         scanf("%d", &numStart);
                         start = ReturnNode(numStart, head);
                         while (1) {
-                            printf("loop");
-                            if ( scanf("%c", &c)== EOF) {
+                            if ( scanf("%c", &c)!= EOF) {
                                 break;
                             }
-                            scanf("%d", &numEnd);
+                            if(scanf("%d", &numEnd)==EOF) {
+                                flag = 0;
+                                break;
+                            }
                             end = ReturnNode(numEnd, head);
                             scanf("%d", &weight);
                             addEdge(start, end, weight);
@@ -54,10 +56,13 @@ int main() {
                     deleteEdges(&(start->edges));////delit the firsr edge
                 }
                 while (1) {
-                    if ( scanf("%c", &c)== EOF) {
+                    if ( scanf("%c", &c)!= EOF) {
                         break;
                     }
-                    scanf("%d", &numEnd);
+                    if(scanf("%d", &numEnd)==EOF) {
+                        flag = 0;
+                        break;
+                    }
                     end = ReturnNode(numEnd, head);
                     scanf("%d", &weight);
                     addEdge(start, end, weight);
@@ -68,13 +73,17 @@ int main() {
                 scanf("%d", &numStart);
                 start = ReturnNode(numStart, head);
                 deleteOneNode(start, head);
-                scanf("%c", &c);
+                if(scanf("%c", &c)==EOF)
+                    flag=0;
+                break;
 
             }
             case 'S': {
                 scanf("%d%d", &numStart, &numEnd);
                 printf("%d", shortsPath_cmd(head, numStart, numEnd));
-                scanf("%c", &c);
+                if(scanf("%c", &c)==EOF)
+                    flag=0;
+                break;
             }
             case 'T': {
                 int numnode;
@@ -86,8 +95,9 @@ int main() {
 
                 TSP_cmd(head, arr_node, numnode);
                 free(arr_node);
-                scanf("%c", &c);
-
+                if(scanf("%c", &c)==EOF)
+                    flag=0;
+                break;
             }
             default:
                 break;
