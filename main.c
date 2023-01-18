@@ -14,19 +14,16 @@ int main() {
     node *start = NULL;
     node *end = NULL;
     int weight, numStart, numEnd;
-    printf("a");
     scanf("%c", &c);
     while (flag) {
         switch (c) {
             case 'A': {
-                printf("a");
                 deleteGraph(&head);
                 scanf("%d", &size);
                 head = newGraph(size);
                 scanf("%c", &c);
                 while (1) {
                     if (c == 'n') {
-                        printf("n");
                         scanf("%d", &numStart);
                         start = ReturnNode(numStart, head);
                         while (1) {
