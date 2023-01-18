@@ -15,7 +15,7 @@ void relax(edge *e, node *head, int du) {
     int dv = head->distance;
     if (du != INT_MAX) {
         if (dv > du + w) {
-            head->distance = du + dv;
+            head->distance = du + w;
         }
     }
 }
@@ -83,24 +83,32 @@ void deleteMini(node *head, node *min) {
 }
 
 
-int dijkstra(node *head, int *nodes, int len, int start, int end, int *boo, int sum) {
+int dijkstra(node *head, int *nodes, int len, int start, int end, int *intb, int sum) {
     int min = INT_MAX;
-    boo[end] = 1;
+    intb[end] = 1;
     int finish = 0;
+    printf("_________________\n");
+    for (int i = 0; i < len; ++i) {
+        printf("%d", intb[i]);
+    }
+    printf("\n_________________\n");
 
 //chek if finish
     for (int i = 0; i < len; ++i) {
-        finish += boo[i];
+        finish += intb[i];
     }
     if (finish == len)
         return sum;
 
     for (int i = 0; i < len; i++) {
         int d = shortsPath_cmd(head, nodes[start], nodes[end]);
-        if (boo[i] != 1 && d != INT_MAX) {
+        if (intb[i] != 1 && d != INT_MAX) {
             int *boo1 = (int *) malloc(len * sizeof(int));
-            memcpy(boo1, boo, len);
+            for (int j = 0; j < len; ++j) {
+                boo1[j]=intb[j];
+            }
             sum += d;
+//            printf("********%d******",i);
             int tempMin=dijkstra(head, nodes, len, end, i, boo1, sum);
             if (tempMin < min)
                 min = tempMin;
@@ -116,6 +124,7 @@ void TSP_cmd(pnode head, int *nodes, int len) {
 
     for (int j = 0; j < len; j++) {
         int *boo = (int *) calloc(len, sizeof(int));
+        printf("______d______");
         int temp = dijkstra(head, nodes, len, j, j, boo, 0);
         free(boo);
         if (temp < min)
@@ -123,9 +132,9 @@ void TSP_cmd(pnode head, int *nodes, int len) {
     }
 
     if (min == INT_MAX) {
-        printf("-1\n");
+        printf("TSP shortest path: -1 \n");
     } else {
-        printf("%d\n", min);
+        printf("TSP shortest path: %d \n", min);
     }
 }
 

@@ -6,7 +6,7 @@
 #include "graph.h"
 
 node *newGraph(int p) {
-    node * node1 = NULL;
+    node *node1 = NULL;
     if (p > 1) {
         node1 = (node *) calloc(1, sizeof(node));
         if (node1 == NULL) {
@@ -54,41 +54,54 @@ void addNode(node **node1, int num) {
 }
 
 
-
 void deleteGraph(node **head) {
     while (*head != NULL) {
         deleteEdges(&(*head)->edges);
-        node* temp=*head;
-        (*head)=(*head)->next;
+        node *temp = *head;
+        (*head) = (*head)->next;
         (temp)->next = NULL;
         free(temp);
     }
 }
 
 void deleteOneNode(node *node1, node *head) {
-    deleteEdges(&(node1->edges));
+
+    deleteEdges(&((node1)->edges));
     while (head != NULL) {
-        deleteSpecificEdge(&(head->edges), node1);
+        printf("-------------------%d\n",(head)->node_num);
+        deleteSpecificEdge(&((head)->edges), node1);
+        head = (head)->next;
+    }
+
+}
+
+
+void printGraph_cmd(pnode head) {
+    printf("Graph representation [src]---(weight)--->[dest]\n");
+    while (head != NULL) {
+        pedge current_edge = head->edges;
+        if (current_edge == NULL) {
+            printf("[%d]\n", head->node_num);
+        }
+        while (current_edge != NULL) {
+            printf("[%d]---(%d)--->[%d]\n", head->node_num, current_edge->weight, current_edge->endpoint->node_num);
+            current_edge = current_edge->next;
+        }
         head = head->next;
     }
 }
 
-void printGraph_cmd(pnode head) //for self debug
-{
-    while (head != NULL) {
-        printf("Node:node_num-%d", head->node_num);
-        printEdges(head->edges, 0);
-        printf("\n----------------------------------\n");
-        head = head->next;
-    }
-}
-node *ReturnNode(int t, node *head){
+node *ReturnNode(int t, node *head) {
     node *node1 = head;
-    while ((node1)->node_num != t && (node1)->next != NULL) {
-        node1 = node1->next;
+
+    if (node1 != NULL) {
+        while ((node1)->node_num != t && (node1)->next != NULL) {
+            node1 = node1->next;
+        }
+
+        if (node1->node_num == t)
+            return node1;
     }
-    if ((node1)->node_num == t)
-        return node1;
     return NULL;
 }
 

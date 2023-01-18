@@ -33,6 +33,8 @@ void addEdge(node *nodeStart, node *nodeEnd, int num) {
 
 
 void deleteSpecificEdge(edge **edge1, node *node1) {
+    if(*edge1==NULL){
+        return;}
     if ((*edge1)->endpoint->node_num == node1->node_num){
         edge *temp = *edge1;
         *edge1 = (*edge1)->next;
@@ -42,8 +44,9 @@ void deleteSpecificEdge(edge **edge1, node *node1) {
     }
     edge *edge2=*edge1;
     while (edge2->next != NULL) {
-        if ((edge2)->next->endpoint->node_num != node1->node_num)
-            edge2=edge2->next;
+        if ((edge2)->next->endpoint->node_num != node1->node_num) {
+            edge2 = edge2->next;
+        }
         else {
             edge * temp = (edge2)->next;
             (edge2)->next=(edge2)->next->next;
@@ -53,10 +56,12 @@ void deleteSpecificEdge(edge **edge1, node *node1) {
         }
 
     }
+    return;
 }
 
 
 void deleteEdges(edge **head) {
+    printf("2\n");
     while (*head != NULL) {
         edge * temp=*head;
         (temp)->next = NULL;
@@ -64,14 +69,6 @@ void deleteEdges(edge **head) {
         *head=(*head)->next;
         free(temp);
     }
+    printf("3\n");
 }
 
-
-void printEdges(edge *edge1, int index) {
-    while (edge1 != NULL) {
-        printf("edge %d:weight-%d end_point_value-%d\n\n", index, edge1->weight, edge1->endpoint->node_num);
-        edge1 = edge1->next;
-        index++;
-    }
-
-}

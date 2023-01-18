@@ -16,4 +16,4 @@ void addNode(node ** node1,int num);
 void deleteGraph(node **node1);
 node *ReturnNode(int t, node *head);
 
-#endif //GRAPH_H_GCH_NODE_H
+#endif
