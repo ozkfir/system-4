@@ -21,20 +21,20 @@ int main() {
     while (flag) {
         switch (tv) {
             case 'A': {
-                printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//                printf("aaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 deleteGraph(&head);
                 scanf(" %d", &size);
                 head = newGraph(size);
-                printGraph_cmd(head);
+//                printGraph_cmd(head);
 //                printf("ggg");
                 scanf(" %c", &tv);
                 while (1) {
                     if (tv == 'n') {
                         tv = 'w';
-                        printf("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n");
+//                        printf("nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn\n");
                         scanf(" %d", &numStart);
                         start = ReturnNode(numStart, head);
-                        printf("%d", start->node_num);
+//                        printf("%d", start->node_num);
 //                    printf("bjkbjl,2");
                         setedge(head, &flag, start, &tv);
 //                    printf("uuuuuuuuuuuuuuuuu");
@@ -45,7 +45,7 @@ int main() {
                 break;
             }
             case 'B': {
-                printf("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n");
+//                printf("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n");
                 scanf(" %d", &numStart);
 
 
@@ -62,7 +62,7 @@ int main() {
                 break;
             }
             case 'D': {
-                printf("dddddddddddddddddddddddddddddddddddddddddddd\n");
+//                printf("dddddddddddddddddddddddddddddddddddddddddddd\n");
                 scanf(" %d", &numStart);
                 start = ReturnNode(numStart, head);
                 if (head->node_num == start->node_num) {
@@ -77,14 +77,14 @@ int main() {
                     temp->next=temp->next->next;
                     free(start);
                 }
-                printGraph_cmd(head);
+//                printGraph_cmd(head);
                 if (scanf(" %c", &tv) == EOF)
                     flag = 0;
                 break;
 
             }
             case 'S': {
-                printf("ssssssssssssssssssssssssssssssssssssssssssss\n");
+//                printf("ssssssssssssssssssssssssssssssssssssssssssss\n");
                 scanf(" %d", &numStart);
                 scanf(" %d", &numEnd);
                 int min=shortsPath_cmd(head, numStart, numEnd);
@@ -96,17 +96,17 @@ int main() {
                 break;
             }
             case 'T': {
-                printf("tttttttttttttttttttttttttttttttttttttt\n");
+//                printf("tttttttttttttttttttttttttttttttttttttt\n");
                 int numnode;
-                printf(("2\n"));
+//                printf(("2\n"));
                 scanf(" %d", &numnode);
-                printf(("2\n"));
+//                printf(("2\n"));
                 int *arr_node = (int *) calloc(numnode, sizeof(int));
                 if (arr_node == NULL) {
                         printf("problem with memory");
                         exit(1);
                     }
-                printf("-------%d\n",numnode);
+//                printf("-------%d\n",numnode);
                 for (int i = 0; i < numnode; i++) {
                     scanf(" %d", &arr_node[i]);
                 }
@@ -121,7 +121,8 @@ int main() {
                 break;
         }
     }
-    printf("king");
+    deleteGraph(&head);
+//    printf("\ngraph deleted\n");
     return 0;
 }
 
@@ -138,7 +139,7 @@ void setedge(node *head, int *flag, node *start, char *tv) {
         end = ReturnNode(numEnd, head);
         if (scanf(" %d", &weight) == 1) {
             addEdge(start, end, weight);
-            printGraph_cmd(head);
+//            printGraph_cmd(head);
         }
     }
 }

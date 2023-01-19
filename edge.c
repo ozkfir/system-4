@@ -61,7 +61,6 @@ void deleteSpecificEdge(edge **edge1, node *node1) {
 
 
 void deleteEdges(edge **head) {
-    printf("2\n");
     while (*head != NULL) {
         edge * temp=*head;
         (temp)->next = NULL;
@@ -69,6 +68,5 @@ void deleteEdges(edge **head) {
         *head=(*head)->next;
         free(temp);
     }
-    printf("3\n");
 }
 

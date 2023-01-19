@@ -68,7 +68,7 @@ void deleteOneNode(node *node1, node *head) {
 
     deleteEdges(&((node1)->edges));
     while (head != NULL) {
-        printf("-------------------%d\n",(head)->node_num);
+//        printf("-------------------%d\n",(head)->node_num);
         deleteSpecificEdge(&((head)->edges), node1);
         head = (head)->next;
     }

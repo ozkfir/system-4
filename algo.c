@@ -84,32 +84,43 @@ void deleteMini(node *head, node *min) {
 
 
 int dijkstra(node *head, int *nodes, int len, int start, int end, int *intb, int sum) {
+//    printf("start-%d  end_%d", start, end);
     int min = INT_MAX;
     intb[end] = 1;
     int finish = 0;
-    printf("_________________\n");
-    for (int i = 0; i < len; ++i) {
-        printf("%d", intb[i]);
-    }
-    printf("\n_________________\n");
+//    printf("_________________\n");
+//    for (int i = 0; i < len; ++i) {
+//        printf("%d", intb[i]);
+//    }
+//    printf("\n_________________\n");
 
 //chek if finish
     for (int i = 0; i < len; ++i) {
         finish += intb[i];
     }
-    if (finish == len)
-        return sum;
+    if (finish == len) {
+        int d = shortsPath_cmd(head, nodes[start], nodes[end]);
+        if(d==INT_MAX)
+            return INT_MAX;
+//        printf("\n");
+        return sum +d ;
+    }
 
     for (int i = 0; i < len; i++) {
         int d = shortsPath_cmd(head, nodes[start], nodes[end]);
         if (intb[i] != 1 && d != INT_MAX) {
             int *boo1 = (int *) malloc(len * sizeof(int));
             for (int j = 0; j < len; ++j) {
-                boo1[j]=intb[j];
+                boo1[j] = intb[j];
             }
+
+//            printf("s-%d,d-%d,ns-%d,ne-%d\n", sum, d, nodes[start], nodes[end]);
             sum += d;
 //            printf("********%d******",i);
-            int tempMin=dijkstra(head, nodes, len, end, i, boo1, sum);
+            int tempMin = dijkstra(head, nodes, len, end, i, boo1, sum);
+//            printf("%d--%d---%d---%d\n",tempMin,min,end,i);
+//            printf("---%d--%d---\n", tempMin, min);
+
             if (tempMin < min)
                 min = tempMin;
             sum -= d;
@@ -120,11 +131,11 @@ int dijkstra(node *head, int *nodes, int len, int start, int end, int *intb, int
 }
 
 void TSP_cmd(pnode head, int *nodes, int len) {
-    int min;
+    int min = INT_MAX;
 
     for (int j = 0; j < len; j++) {
         int *boo = (int *) calloc(len, sizeof(int));
-        printf("______d______");
+//        printf("______%d______", j);
         int temp = dijkstra(head, nodes, len, j, j, boo, 0);
         free(boo);
         if (temp < min)
