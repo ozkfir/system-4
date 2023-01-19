@@ -56,21 +56,17 @@ void addNode(node **node1, int num) {
 
 void deleteGraph(node **head) {
     while (*head != NULL) {
-//        printf("%d",(*head)->node_num);
         deleteEdges(&(*head)->edges);
         node *temp = *head;
         (*head) = (*head)->next;
         (temp)->next = NULL;
         free(temp);
     }
-//    printf("\n");
 }
 
 void deleteOneNode(node *node1, node *head) {
-
     deleteEdges(&((node1)->edges));
     while (head != NULL) {
-//        printf("-------------------%d\n",(head)->node_num);
         deleteSpecificEdge(&((head)->edges), node1);
         head = (head)->next;
     }
@@ -95,12 +91,10 @@ void printGraph_cmd(pnode head) {
 
 node *ReturnNode(int t, node *head) {
     node *node1 = head;
-
     if (node1 != NULL) {
         while ((node1)->node_num != t && (node1)->next != NULL) {
             node1 = node1->next;
         }
-
         if (node1->node_num == t)
             return node1;
     }
