@@ -25,6 +25,7 @@ int main() {
                 deleteGraph(&head);
                 scanf(" %d", &size);
                 head = newGraph(size);
+//                printf("\n");
 //                printGraph_cmd(head);
 //                printf("ggg");
                 scanf(" %c", &tv);
@@ -121,6 +122,7 @@ int main() {
                 break;
         }
     }
+//    printGraph_cmd(head);
     deleteGraph(&head);
 //    printf("\ngraph deleted\n");
     return 0;

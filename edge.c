@@ -11,6 +11,7 @@
 edge *newEdge(node *node1, int num) {
     edge *edge1 = NULL;
     edge1 = (edge *) calloc(1, sizeof(edge));
+//    printf("1+");
     if (edge1 == NULL) {
         printf("problem with memory");
         exit(1);
@@ -63,9 +64,10 @@ void deleteSpecificEdge(edge **edge1, node *node1) {
 void deleteEdges(edge **head) {
     while (*head != NULL) {
         edge * temp=*head;
+        *head=(*head)->next;
         (temp)->next = NULL;
         (temp)->endpoint = NULL;
-        *head=(*head)->next;
+//        printf("-1");
         free(temp);
     }
 }

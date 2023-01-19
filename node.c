@@ -56,12 +56,14 @@ void addNode(node **node1, int num) {
 
 void deleteGraph(node **head) {
     while (*head != NULL) {
+//        printf("%d",(*head)->node_num);
         deleteEdges(&(*head)->edges);
         node *temp = *head;
         (*head) = (*head)->next;
         (temp)->next = NULL;
         free(temp);
     }
+//    printf("\n");
 }
 
 void deleteOneNode(node *node1, node *head) {
